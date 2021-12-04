@@ -1,15 +1,39 @@
 import io.restassured.RestAssured;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import static org.hamcrest.Matchers.*;
 
 public class ClientsTest {
+
+        @BeforeAll
+        static void setup(){
+            RestAssured.baseURI = "http://localhost:8080";
+            RestAssured.basePath = "/clients";
+        }
+
        @Test
                     void testListaClientes_TodosClientesSaoListados() {
-        RestAssured.given()
-                .log().all()
-                .when()
-                .get("http://localhost:8080/clients")
-                .then()
-                .log().all()
-                .statusCode(200);
+        RestAssured.given()//Dado - Given
+                .log().all()  // loga toda a request - solicitação (entrada) - mostra o cabeçalho da solicitação
+                .when() //Quando - When
+                .get() // Faz a solicitação em si, método/verbo GET passando como parametro a ur/uri
+                .then() //Então
+                .log().all()// loga toda a response
+                .statusCode(200); // verifica se o resultado da request é HTTP 200 OK
+           }
+
+           @Test
+           void testListaUnicoCliente_ClienteEhListadoComTodasAsInformacoes() {
+               RestAssured.given()//Dado - Given
+                       .log().all()  // loga toda a request - solicitação (entrada) - mostra o cabeçalho da solicitação
+                       .when() //Quando - When - Request
+                       .get("/2") // Faz a solicitação em si, método/verbo GET passando como parametro a ur/uri
+                       .then() //Então - REsponse
+                       .log().all()// loga toda a response
+                       .statusCode(200) // verifica se o resultado da request é HTTP 200 OK
+                       .body("id",is(2));
+
+           }
     }
-}
+
+
