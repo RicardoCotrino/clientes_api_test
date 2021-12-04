@@ -24,14 +24,16 @@ public class ClientsTest {
 
            @Test
            void testListaUnicoCliente_ClienteEhListadoComTodasAsInformacoes() {
+
+            int id = 4;
                RestAssured.given()//Dado - Given
                        .log().all()  // loga toda a request - solicitação (entrada) - mostra o cabeçalho da solicitação
                        .when() //Quando - When - Request
-                       .get("/2") // Faz a solicitação em si, método/verbo GET passando como parametro a ur/uri
+                       .get("/"+id) // Faz a solicitação em si, método/verbo GET passando como parametro a ur/uri
                        .then() //Então - REsponse
                        .log().all()// loga toda a response
                        .statusCode(200) // verifica se o resultado da request é HTTP 200 OK
-                       .body("id",is(2));
+                       .body("id",is(id));
 
            }
     }
